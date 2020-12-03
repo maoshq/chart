@@ -1,0 +1,71 @@
+﻿<Window x:Name="Window1" x:Class="UITest.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UITest"
+        xmlns:hc="https://handyorg.github.io/handycontrol"
+        
+        mc:Ignorable="d"
+                      
+        Title="ChartTool" Height="470" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" 
+                WindowStyle="None"
+
+        BorderThickness="1"
+        AllowsTransparency="True" Icon="/Resources/Icon/title.png" 
+        >
+    <Window.Effect>
+        <DropShadowEffect BlurRadius="24" Color="#FF858484" Direction="90" ShadowDepth="3"/>
+    </Window.Effect>
+    <Window.Resources>
+        <Style x:Key="PathSource" TargetType="Path">
+            <Setter Property="Stretch" Value="Fill"/>
+            <Setter Property="Fill" Value="White"/>
+        </Style>
+
+        <Style TargetType="Path" BasedOn="{StaticResource PathSource}" x:Key="min" >
+            <Setter Property="Data" Value="M768 533.333333H256c-12.8 0-21.333333-8.533333-21.333333-21.333333s8.533333-21.333333 21.333333-21.333333h512c12.8 0 21.333333 8.533333 21.333333 21.333333s-8.533333 21.333333-21.333333 21.333333z"></Setter>
+        </Style>
+        <Style TargetType="Path" BasedOn="{StaticResource PathSource}" x:Key="max" >
+            <Setter Property="Data" Value="M832 832H192V192h640v640z m-597.333333-42.666667h554.666666V234.666667H234.666667v554.666666z"></Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="800" Background="LightSkyBlue" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown">
+            <Button   Margin="-750,5,0,0"  Style="{StaticResource ButtonIcon}" Foreground="Blue" hc:IconElement.Geometry="{StaticResource title}"
+                      Click="ReturnMain"
+                      />
+            <Button Margin="400,-30,0,0" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource  setting}"  Foreground="Black" 
+                    hc:Poptip.IsOpen="True" hc:Poptip.Content="设置" hc:Poptip.Placement="Bottom" 
+                    Click="Button_Click_1"
+                    />
+            <WrapPanel Width="5"  Margin="470,-29,0,0" Height="18">
+                <TextBlock>|</TextBlock>
+            </WrapPanel>
+            <WrapPanel Width="18"  Margin="550,-32,0,0" Height="10" HorizontalAlignment="Center" MouseDown="btn_min_Click">
+                <TextBlock >———</TextBlock>
+            </WrapPanel>
+
+            <WrapPanel Width="16"  Margin="640,-29,0,0" Height="15" MouseDown="WrapPanel_MouseDown">
+                <Path Style="{StaticResource max}" Fill="DarkSlateGray"   Height="15" Width="16" RenderTransformOrigin="0.5,0.5" Stretch="Fill" />
+            </WrapPanel>
+
+
+            <Button   Margin="730,-29,0,0"  Style="{StaticResource ButtonIcon}" Foreground="Black" hc:IconElement.Geometry="{StaticResource close}"
+                        Click="Button_Click" Height="28" Width="40"
+                      />
+
+        </StackPanel>
+
+
+
+
+        <ContentControl x:Name="Main" Margin="0,40,0,18"/>
+
+
+
+    </Grid>
+
+</Window>
