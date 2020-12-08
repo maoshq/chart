@@ -22,7 +22,7 @@ namespace UITest.Util
         const string Crashes_Total = "Reliability-Crashes_Total-";
         const string TMAD = "OSAdoption-TMAD-";
         const string Crashes = "Reliability-Crashes-";
-
+        const string ReportDatr = "Reliability-Crashes_Date-";
         public static string path = System.Environment.CurrentDirectory + "\\ExportData\\";
         public const string suffix = ".csv";
         public static readonly string[] Name = { "rltkapou64.dll", "rltkapo64.dll", "igdkmd64.sys" };//rltkapou64.dll,rltkapo64.dll,igdkmd64.sys
