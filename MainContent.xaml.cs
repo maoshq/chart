@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
@@ -25,10 +27,13 @@ namespace UITest
 
         public bool OSflag = false;
         public bool VerFlag = false;
+        
+
         public MainContent()
         {
             InitializeComponent();
             InitUI();
+            Util.Tool.InitSetting();
         }
 
         public void InitUI()
@@ -43,7 +48,7 @@ namespace UITest
             combox1.Items.Add("1709 | RS3");
             combox1.Items.Add("1607 | RS1");
 
-            TextBox1.Text = "rltkapou64.dll";
+            //TextBox1.Text = "rltkapou64.dll";
             //,rltkapo64.dll,igdkmd64.sys
         }
 
@@ -73,6 +78,7 @@ namespace UITest
                 Name = new string[] { TextBox1.Text };
             }
             Dictionary<string, string[]> condition = new Dictionary<string, string[]> { };
+            Dictionary<string, string> arg = new Dictionary<string, string> { };
 
             if (combox1.SelectedItem != null)
             {
@@ -105,13 +111,17 @@ namespace UITest
                 }
                 condition.Add("DriverVersion", selectedItem);
             }
+
+            bool? isChecked = new UserControl1().Model1.IsChecked;
+            string arg1 = new UserControl1().Model1.IsChecked == true ? "NET" : "LOCAL";
+            arg.Add("model", arg1);
             try
             {
                 Task task = new Task(() =>
                 {
                     try
                     {
-                        Util.Tool.GenerateExcel(Name, condition);
+                        Util.Tool.GenerateExcel(Name, arg, condition);
                     }
                     catch (Exception e)
                     {
@@ -162,7 +172,7 @@ namespace UITest
                 {
                     Task task = new Task(() =>
                     {
-                        List<string> items = Util.Tool.GetItems("rltkapou64.dll", "OSVersion");
+                        List<string> items = Util.Tool.GetItems("rltkapou64.dll", "OSVersion","NET");
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
                         {
                             foreach (var item in items)
@@ -191,7 +201,7 @@ namespace UITest
                 {
                     Task task = new Task(() =>
                     {
-                        lists = Util.Tool.GetItems(text, "DriverVersion");                      
+                        lists = Util.Tool.GetItems(text, "DriverVersion", "NET");                      
                     });
                     task.Start();
                     Task cwt = task.ContinueWith(t =>
@@ -212,6 +222,23 @@ namespace UITest
             {
                 throw;
             }
+        }
+
+        private void initi(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GDR_Click(object sender, RoutedEventArgs e)
+        {
+            Hyperlink link = sender as Hyperlink;
+            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
+            
+        }
+
+        private void TextBox1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Pop.IsOpen = true;//设置为打开状态
         }
     }
 }

@@ -67,6 +67,7 @@ namespace UITest
         private void ReturnMain(object sender, RoutedEventArgs e)
         {
             Main.Content = new MainContent();
+            
         }
 
 

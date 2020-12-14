@@ -5,43 +5,70 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UITest" xmlns:hc="https://handyorg.github.io/handycontrol"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="430" d:DesignWidth="800" Initialized="initi">
     <Grid>
 
-        <ScrollViewer Margin="0,0,25,81"  >
+        <ScrollViewer Margin="0,0,10,100"  >
             <Grid Height="341">
 
-                <hc:Divider  Margin="30,315,30,10"/>
+
                 <hc:CheckComboBox x:Name="combox1" HorizontalAlignment="Left" Margin="150,100,0,0" Width="405" VerticalAlignment="Top"
                  Style="{StaticResource CheckComboBoxPlus}" SelectionChanged="CheckComboBox_SelectionChanged"         
                  ShowClearButton="True" 
-                          hc:TitleElement.Title="ReleaseVersion" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" AllowDrop="True"  ShowSelectAllButton="True" Height="35" 
+                          hc:TitleElement.Title="OS Version" hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" AllowDrop="True"  ShowSelectAllButton="True" Height="35" 
 
                           />
 
                 <hc:CheckComboBox x:Name="combox2" HorizontalAlignment="Left" Height="38" Margin="150,177,0,0"  VerticalAlignment="Top" Width="405"
                           Style="{StaticResource CheckComboBoxPlus}"
-                      hc:TitleElement.Title="OSVersion"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" AllowDrop="True" ShowSelectAllButton="True" 
-                    hc:ShowClearButton="True" MouseEnter="combox2_MouseEnter"
+                      hc:TitleElement.Title="GDR Version"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" AllowDrop="True" ShowSelectAllButton="True" 
+                    hc:ShowClearButton="True" MouseEnter="combox2_MouseEnter" 
                     />
+
                 <hc:CheckComboBox x:Name="combox3" HorizontalAlignment="Left" Height="35" Margin="150,250,0,0"  VerticalAlignment="Top" Width="405" Style="{StaticResource CheckComboBoxPlus}"
-            hc:TitleElement.Title="DriverVersion"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" AllowDrop="True"  ShowSelectAllButton="True"
+            hc:TitleElement.Title="Driver Version"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" AllowDrop="True"  ShowSelectAllButton="True"
                     hc:ShowClearButton="True"  MouseEnter="combox3_MouseEnter"
                     />
                 <hc:TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="35" Margin="150,25,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="405"
-            hc:TitleElement.Title="DriverName"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" 
-                    hc:ShowClearButton="True" hc:InfoElement.Necessary="True" TextChanged="TextBox1_TextChanged"  
+            hc:TitleElement.Title="Driver Name"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" 
+                    hc:ShowClearButton="True" hc:InfoElement.Necessary="True" TextChanged="TextBox1_TextChanged" MouseLeftButtonDown="TextBox1_MouseLeftButtonDown" 
                     />
+                <Popup  Placement="Bottom" x:Name="Pop" Width="300" PlacementTarget="{Binding ElementName=TextBox1}"  
+                      StaysOpen="False" HorizontalAlignment="Right" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" PopupAnimation="Slide"
+                        >
+                    <Border  CornerRadius="5" BorderBrush="LightSkyBlue" BorderThickness="1">
+                        <ItemsControl>
+                            <Label Content="我是第1行" />
+                            <Label Content="我是第2行" />
+                            <Label Content="我是第3行" />
+                            <Label Content="我是第4行"/>
+                        </ItemsControl>
+                    </Border>
+
+                </Popup>
+                <TextBlock HorizontalAlignment="Left" Height="19" Margin="605,196,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="30">
+                    <Hyperlink NavigateUri="https://docs.microsoft.com/en-us/windows/release-information/" ToolTip="GDR" Name="GDR" Click="GDR_Click" Cursor="Hand">GDR</Hyperlink>
+                </TextBlock>
             </Grid>
 
         </ScrollViewer>
+        <hc:Divider  Margin="72,330,72,80" Visibility="Visible"  BorderThickness="2" RenderTransformOrigin="0.5,0.5">
+            <hc:Divider.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </hc:Divider.RenderTransform>
+        </hc:Divider>
 
-
-        <Button x:Name="Button1" Style="{StaticResource ButtonInfo}" Content="提交" Margin="615,374,0,0" hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Click="Button_Click" FontSize="14" />
-        <hc:LoadingCircle x:Name="Loading1" HorizontalAlignment="Left" Height="30" Margin="705,374,0,0" VerticalAlignment="Top" Width="35"
+        <Button x:Name="Button1" Style="{StaticResource ButtonInfo}" Content="提交" Margin="622,369,0,0" hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Click="Button_Click" FontSize="14" />
+        <hc:LoadingCircle x:Name="Loading1" HorizontalAlignment="Left" Height="30" Margin="712,369,0,0" VerticalAlignment="Top" Width="35"
                     Visibility="Hidden"
                           />
-        <CheckBox x:Name="check1" HorizontalAlignment="Left" Margin="523,380,0,0"    Content="生成图表" VerticalAlignment="Top" ClickMode="Release" IsChecked="True" />
+
+        <CheckBox x:Name="check1" HorizontalAlignment="Left" Margin="530,375,0,0"    Content="生成图表" VerticalAlignment="Top" ClickMode="Release" IsChecked="True" />
 
     </Grid>
 </UserControl>

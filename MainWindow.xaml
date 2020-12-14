@@ -8,7 +8,7 @@
         
         mc:Ignorable="d"
                       
-        Title="ChartTool" Height="470" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" 
+        Title="ChartTool" Height="488" Width="800" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" 
                 WindowStyle="None"
 
         BorderThickness="1"
@@ -34,7 +34,7 @@
 
     <Grid>
         <StackPanel HorizontalAlignment="Center" Height="40" VerticalAlignment="Top" Width="800" Background="LightSkyBlue" MouseLeftButtonDown="StackPanel_MouseLeftButtonDown">
-            <Button   Margin="-750,5,0,0"  Style="{StaticResource ButtonIcon}" Foreground="Blue" hc:IconElement.Geometry="{StaticResource title}"
+            <Button x:Name="Button1"   Margin="-750,5,0,0"  Style="{StaticResource ButtonIcon}" Foreground="Blue" hc:IconElement.Geometry="{StaticResource title}"
                       Click="ReturnMain"
                       />
             <Button Margin="400,-30,0,0" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource  setting}"  Foreground="Black" 
@@ -49,7 +49,7 @@
             </WrapPanel>
 
             <WrapPanel Width="16"  Margin="640,-29,0,0" Height="15" MouseDown="WrapPanel_MouseDown">
-                <Path Style="{StaticResource max}" Fill="DarkSlateGray"   Height="15" Width="16" RenderTransformOrigin="0.5,0.5" Stretch="Fill" />
+                <Path Style="{StaticResource max}" Fill="Black"   Height="15" Width="16" RenderTransformOrigin="0.5,0.5" Stretch="Fill" />
             </WrapPanel>
 
 
