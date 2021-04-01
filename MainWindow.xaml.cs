@@ -16,9 +16,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using HandyControl.Controls;
 using Newtonsoft.Json;
 using UITest.Model;
 using UITest.Util;
+using MessageBox = System.Windows.MessageBox;
+using Window = System.Windows.Window;
 
 namespace UITest
 {
@@ -29,21 +32,19 @@ namespace UITest
     public partial class MainWindow : Window
     {
         public static DataTable dt = new DataTable();
+        public static userControl.MyChart myChart;
+        public List<string> lists;
         public MainWindow()
         {
             
             InitializeComponent();
-            Main.Content = new MainContent();
+            myChart = new userControl.MyChart();
 
-            Task task = new Task(() =>
-            {
-                if (dt == null || dt.Rows.Count == 0)
-                {
-                    dt = Tool.GetDT();
-                }
-            });
-            task.Start();
+            Util.Tool.InitSetting();
+            //Main.Children.Add(myChart);
         }
+
+
         private void StackPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -75,31 +76,12 @@ namespace UITest
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            Button2.IsEnabled = false;
-            Task task = new Task(() =>
-            {
-                try
-                {
-                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
-                    {
-                        Main.Content = new UserControl1();
-                    });
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.Message);
-                    throw;
-                }
-            });
-            task.Start();
-            Task cwt = task.ContinueWith(t =>
-            {
-                this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
-                {
-                    Button2.IsEnabled = true;
-                });
-            });
+            Main.Visibility = Visibility.Hidden;
+            Main1.Visibility = Visibility.Visible;
+            Main1.Content = new UserControl1();
+
         }
+        
 
         private void ReturnMain(object sender, RoutedEventArgs e)
         {
@@ -110,7 +92,8 @@ namespace UITest
                 {
                     this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
                     {
-                        Main.Content = new MainContent();
+                        Main1.Visibility = Visibility.Hidden;
+                        Main.Visibility = Visibility.Visible;
                     });
                 }
                 catch (Exception e)
@@ -131,7 +114,46 @@ namespace UITest
 
         private void Button2_Copy_Click(object sender, RoutedEventArgs e)
         {
-            Main.Content = new userControl.MyChart();
+
+            Main.Visibility = Visibility.Hidden;
+            
+            Main1.Content = new MainContent();
         }
+
+        private void SideMenu_SelectionChanged(object sender, HandyControl.Data.FunctionEventArgs<object> e)
+        {
+            SideMenuItem sideMenuItem = e.Info as SideMenuItem;
+            string header = sideMenuItem.Header.ToString();
+            if (header == "Partner Analyze")
+            {
+                Main1.Visibility = Visibility.Hidden;
+                Main.Visibility = Visibility.Visible;
+                
+            }
+        }
+
+        private void SideMenuItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            SideMenuItem sideMenuItem = e.Source as SideMenuItem;
+            string header = sideMenuItem.Header.ToString();
+            if (header == "Partner Analyze")
+            {
+                Main1.Visibility = Visibility.Hidden;
+                Main.Visibility = Visibility.Visible;
+
+            }
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (Main.CanGoBack)
+            {
+                Main.GoBack();
+            }
+            
+        }
+
+
     }
 }

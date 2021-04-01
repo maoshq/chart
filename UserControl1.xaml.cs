@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using HandyControl.Tools.Extension;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,13 +22,35 @@ namespace UITest
     /// </summary>
     public partial class UserControl1 : UserControl
     {
+
         public UserControl1()
         {
             InitializeComponent();
 
             this.SettingBinding();
-        }
 
+            
+            //listBox.Template.Triggers.Clear();   
+
+            
+        }
+        public static T FindVisualChild<T>(DependencyObject obj) where T : DependencyObject
+        {
+            if (obj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                    if (child != null && child is T)
+                    {
+                        return (T)child;
+                    }
+                    T childItem = FindVisualChild<T>(child);
+                    if (childItem != null) return childItem;
+                }
+            }
+            return null;
+        }
         private void SettingBinding()
         {
             Tool.InitSetting();
@@ -39,6 +62,8 @@ namespace UITest
             };
             Model1.SetBinding(RadioButton.IsCheckedProperty, binding);
             Model2.IsChecked = ! Model1.IsChecked.Value;
+
+
         }
 
         private void ModelCheck1(object sender, RoutedEventArgs e)
@@ -58,5 +83,13 @@ namespace UITest
             };
             File.WriteAllText(Tool.SettingPath, JsonConvert.SerializeObject(model, Formatting.Indented));
         }
+
+        private void Main_Loaded(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+
+
     }
 }

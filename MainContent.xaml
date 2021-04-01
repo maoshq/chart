@@ -32,23 +32,26 @@
 
 
                 <hc:TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="35" Margin="150,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="405"
-            hc:TitleElement.Title="Driver Name"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" 
+                     hc:TitleElement.Title="Driver Name"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" 
                      hc:InfoElement.Necessary="True" TextChanged="TextBox1_TextChanged" IsInactiveSelectionHighlightEnabled="True"  
                       ShowClearButton="True"      >
 
                 </hc:TextBox>
                 <Rectangle x:Name="Rectangle1" Margin="250,60,238,280" />
-                <Popup  Placement="Bottom" x:Name="Pop" Width="309" PlacementTarget="{Binding ElementName=Rectangle1}" ScrollViewer.CanContentScroll="True" PopupAnimation="None"  StaysOpen="False"  AllowsTransparency="True" 
+                <Popup  Placement="Bottom" x:Name="Pop" Width="315" PlacementTarget="{Binding ElementName=Rectangle1}"  PopupAnimation="None"  StaysOpen="False"  AllowsTransparency="True" 
                          >
                     <Border  CornerRadius="5" Background="White" BorderBrush="LightSkyBlue" BorderThickness="1" HorizontalAlignment="Right" Width="300" Margin="0,135,0,215">
-                        <ItemsControl > 
-                            <ListBox  x:Name="DriverName1"   HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="307"     SelectionChanged="DriverName1_SelectionChanged"   />
+                        <ItemsControl >
+                            <ListBox  x:Name="DriverName"  />
+
+                            <ListBox  x:Name="DriverName1"   HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="307"     SelectionChanged="DriverName1_SelectionChanged" FontWeight="Light" />
 
                         </ItemsControl>
 
                     </Border>
 
                 </Popup>
+                
                 <TextBlock HorizontalAlignment="Left" Height="19" Margin="595,196,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.273,0.474">
                     <Hyperlink NavigateUri="https://docs.microsoft.com/en-us/windows/release-information/" ToolTip="GDR版本信息" Name="GDR" Click="GDR_Click" Cursor="Hand">GDR Info</Hyperlink>
                 </TextBlock>
