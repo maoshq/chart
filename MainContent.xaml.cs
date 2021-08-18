@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +17,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-
+using UITest.Model;
+using UITest.Util;
+using System.Data;
 namespace UITest
 {
     /// <summary>
@@ -24,16 +27,20 @@ namespace UITest
     /// </summary>
     public partial class MainContent : UserControl
     {
-
         public bool OSflag = false;
         public bool VerFlag = false;
-        
+        public bool BoxStatus = false;
+        public Dictionary<string, string[]> condition = new Dictionary<string, string[]> { };
 
         public MainContent()
         {
             InitializeComponent();
             InitUI();
             Util.Tool.InitSetting();
+
+            List<string> historyDriver = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Environment.CurrentDirectory + "\\setting.json")).historyDriver;
+
+            this.DriverName1.ItemsSource = historyDriver;
         }
 
         public void InitUI()
@@ -69,6 +76,20 @@ namespace UITest
             string[] Name;
             Dispatcher x = Dispatcher.CurrentDispatcher;
 
+            Settings model = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(Environment.CurrentDirectory + "\\setting.json"));
+            {
+                if (!model.historyDriver.Contains(TextBox1.Text))
+                {
+                    model.historyDriver.Add(TextBox1.Text);
+                }
+                else if (model.historyDriver.Count == 3) 
+                {
+                    model.historyDriver.RemoveAt(1);
+                    model.historyDriver.Add(TextBox1.Text);
+                }
+            };
+            File.WriteAllText(Tool.SettingPath, JsonConvert.SerializeObject(model, Formatting.Indented));
+
             if (TextBox1.Text.Contains(","))
             {
                 Name = TextBox1.Text.Split(",");
@@ -77,9 +98,15 @@ namespace UITest
             {
                 Name = new string[] { TextBox1.Text };
             }
-            Dictionary<string, string[]> condition = new Dictionary<string, string[]> { };
-            Dictionary<string, string> arg = new Dictionary<string, string> { };
-
+            
+            if (!condition.ContainsKey("Name"))
+            {
+                condition.Add("Name", Name);
+            }else if (condition.ContainsKey("Name"))
+            {
+                condition.Remove("Name");
+                condition.Add("Name", Name);
+            }
             if (combox1.SelectedItem != null)
             {
                 string[] selectedItem = new string[combox1.SelectedItems.Count];
@@ -87,7 +114,15 @@ namespace UITest
                 {
                     selectedItem[i] = combox1.SelectedItems[i].ToString();
                 }
-                condition.Add("ReleaseVersion", selectedItem);
+                if (!condition.ContainsKey("ReleaseVersion"))
+                {
+                    condition.Add("ReleaseVersion", selectedItem);
+                }
+                else if (condition.ContainsKey("ReleaseVersion"))
+                {
+                    condition.Remove("ReleaseVersion");
+                    condition.Add("ReleaseVersion", selectedItem);
+                }
             }
             else
             {
@@ -100,7 +135,15 @@ namespace UITest
                 {
                     selectedItem[i] = combox2.SelectedItems[i].ToString();
                 }
-                condition.Add("OSVersion", selectedItem);
+                if (!condition.ContainsKey("OSVersion"))
+                {
+                    condition.Add("OSVersion", selectedItem);
+                }
+                else if (condition.ContainsKey("OSVersion"))
+                {
+                    condition.Remove("OSVersion");
+                    condition.Add("OSVersion", selectedItem);
+                }
             }
             if (combox3.SelectedItem != null)
             {
@@ -109,19 +152,35 @@ namespace UITest
                 {
                     selectedItem[i] = combox3.SelectedItems[i].ToString();
                 }
-                condition.Add("DriverVersion", selectedItem);
+                if (!condition.ContainsKey("DriverVersion"))
+                {
+                    condition.Add("DriverVersion", selectedItem);
+                }
+                else if (condition.ContainsKey("DriverVersion"))
+                {
+                    condition.Remove("DriverVersion");
+                    condition.Add("DriverVersion", selectedItem);
+                }
             }
 
             bool? isChecked = new UserControl1().Model1.IsChecked;
             string arg1 = new UserControl1().Model1.IsChecked == true ? "NET" : "LOCAL";
-            arg.Add("model", arg1);
+            if (!condition.ContainsKey("Model"))
+            {
+                condition.Add("Model", new string[] { arg1 });
+            }
+            else if (condition.ContainsKey("Model"))
+            {
+                condition.Remove("Model");
+                condition.Add("Model", new string[] { arg1 });
+            }
             try
             {
                 Task task = new Task(() =>
                 {
                     try
                     {
-                        Util.Tool.GenerateExcel(Name, arg, condition);
+                        Util.Tool.GenerateExcel(condition);
                     }
                     catch (Exception e)
                     {
@@ -162,6 +221,24 @@ namespace UITest
         private void TextBox1_TextChanged(object sender, TextChangedEventArgs e)
         {
             VerFlag = true;
+            Pop.IsOpen = true;
+            string name = null;
+            Task task = new Task(() =>
+            {
+                Thread.Sleep(1000);
+                this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
+                {
+                    name = TextBox1.Text;
+                });
+                //List<string> items = Util.Tool.FuzzyQuery(MainWindow.getDT(), name, "DriverName").GetRange(0, 10);
+
+/*                this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
+                {
+                    this.DriverName.ItemsSource = items;
+                });*/
+
+            });
+            task.Start();
         }
 
         private void combox2_MouseEnter(object sender, MouseEventArgs e)
@@ -172,13 +249,14 @@ namespace UITest
                 {
                     Task task = new Task(() =>
                     {
-                        List<string> items = Util.Tool.GetItems("rltkapou64.dll", "OSVersion","NET");
+                        
+                        //List<string> items = Util.Tool.GetItems(MainWindow.getDT(), "rltkapou64.dll", "OSVersion");
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
                         {
-                            foreach (var item in items)
+/*                            foreach (var item in items)
                             {
                                 combox2.Items.Add(item);
-                            }
+                            }*/
                         });
                         OSflag = true;
                     });
@@ -193,19 +271,16 @@ namespace UITest
 
         private void combox3_MouseEnter(object sender, MouseEventArgs e)
         {
+            List<string> lists = null;
+            DataTable dt = null;
+            string text = TextBox1.Text;
             try
             {
-                List<string> lists = null;
-                string text = TextBox1.Text;
                 if (VerFlag)
                 {
                     Task task = new Task(() =>
                     {
-                        lists = Util.Tool.GetItems(text, "DriverVersion", "NET");                      
-                    });
-                    task.Start();
-                    Task cwt = task.ContinueWith(t =>
-                    {
+                        //lists = Util.Tool.GetItems(MainWindow.getDT(), text, "DriverVersion");
                         this.Dispatcher.Invoke(DispatcherPriority.Normal, (ThreadStart)delegate ()
                         {
                             combox3.Items.Clear();
@@ -216,6 +291,7 @@ namespace UITest
                         });
                         VerFlag = false;
                     });
+                    task.Start();
                 }
             }
             catch (Exception)
@@ -232,13 +308,22 @@ namespace UITest
         private void GDR_Click(object sender, RoutedEventArgs e)
         {
             Hyperlink link = sender as Hyperlink;
-            Process.Start(new ProcessStartInfo(link.NavigateUri.AbsoluteUri));
-            
+
+            System.Diagnostics.Process.Start("explorer", link.NavigateUri.ToString());
         }
 
-        private void TextBox1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void DriverName1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Pop.IsOpen = true;//设置为打开状态
+            if (DriverName1.SelectedIndex == -1)
+            {
+                return;
+            }
+            if (DriverName1.HasItems)
+            {
+                TextBox1.Text = DriverName1.SelectedItem.ToString();
+                Pop.IsOpen = false;
+            }
+            DriverName1.SelectedIndex = -1;
         }
     }
 }

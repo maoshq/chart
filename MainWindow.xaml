@@ -37,15 +37,15 @@
             <Button x:Name="Button1"   Margin="-750,5,0,0"  Style="{StaticResource ButtonIcon}" Foreground="Blue" hc:IconElement.Geometry="{StaticResource title}"
                       Click="ReturnMain"
                       />
-            <Button Margin="400,-30,0,0" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource  setting}"  Foreground="Black" 
+            <Button x:Name="Button2" Margin="400,-30,0,0" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource  setting}"  Foreground="Black" 
                     hc:Poptip.IsOpen="True" hc:Poptip.Content="设置" hc:Poptip.Placement="Bottom" 
                     Click="Button_Click_1"
                     />
             <WrapPanel Width="5"  Margin="470,-29,0,0" Height="18">
                 <TextBlock>|</TextBlock>
             </WrapPanel>
-            <WrapPanel Width="18"  Margin="550,-32,0,0" Height="10" HorizontalAlignment="Center" MouseDown="btn_min_Click">
-                <TextBlock >———</TextBlock>
+            <WrapPanel Width="18"  Margin="550,-29,0,0" Height="16" HorizontalAlignment="Center" MouseDown="btn_min_Click">
+                <TextBlock Height="16" ToolTip="最小化" >———</TextBlock>
             </WrapPanel>
 
             <WrapPanel Width="16"  Margin="640,-29,0,0" Height="15" MouseDown="WrapPanel_MouseDown">
@@ -54,15 +54,19 @@
 
 
             <Button   Margin="730,-29,0,0"  Style="{StaticResource ButtonIcon}" Foreground="Black" hc:IconElement.Geometry="{StaticResource close}"
-                        Click="Button_Click" Height="28" Width="40"
+                        Click="Button_Click" Height="28" Width="40" ToolTip="最大化"
                       />
+            <Button x:Name="Button2_Copy" Margin="260,-30,0,0" Style="{StaticResource ButtonIcon}" hc:IconElement.Geometry="{StaticResource chart}"  Foreground="Black" 
+                hc:Poptip.IsOpen="True" hc:Poptip.Content="图表" hc:Poptip.Placement="Bottom" 
+                Click="Button2_Copy_Click"
+                    />
 
         </StackPanel>
 
 
 
 
-        <ContentControl x:Name="Main" Margin="0,40,0,18"/>
+        <ContentPresenter x:Name="Main" Margin="0,40,0,18"/>
 
 
 

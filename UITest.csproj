@@ -4,7 +4,22 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>bitbug_favicon.ico</ApplicationIcon>
+    <StartupObject>UITest.App</StartupObject>
+    <AssemblyName>UITest</AssemblyName>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget></PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DataModel\**" />
+    <EmbeddedResource Remove="DataModel\**" />
+    <None Remove="DataModel\**" />
+    <Page Remove="DataModel\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Resources\Icon\settings.png" />
@@ -14,8 +29,10 @@
   <ItemGroup>
     <PackageReference Include="FreeSpire.XLS" Version="10.10.0" />
     <PackageReference Include="HandyControl" Version="3.0.0" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14-beta2" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.113.7" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.6" />
   </ItemGroup>
 
@@ -31,6 +48,25 @@
   <ItemGroup>
     <Resource Include="Resources\Icon\settings.png" />
     <Resource Include="Resources\Icon\title.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
 </Project>

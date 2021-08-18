@@ -27,31 +27,38 @@
 
                 <hc:CheckComboBox x:Name="combox3" HorizontalAlignment="Left" Height="35" Margin="150,250,0,0"  VerticalAlignment="Top" Width="405" Style="{StaticResource CheckComboBoxPlus}"
             hc:TitleElement.Title="Driver Version"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Auto" AllowDrop="True"  ShowSelectAllButton="True"
-                    hc:ShowClearButton="True"  MouseEnter="combox3_MouseEnter"
+                    hc:ShowClearButton="True"  MouseEnter="combox3_MouseEnter"  
                     />
-                <hc:TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="35" Margin="150,25,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="405"
-            hc:TitleElement.Title="Driver Name"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" 
-                    hc:ShowClearButton="True" hc:InfoElement.Necessary="True" TextChanged="TextBox1_TextChanged" MouseLeftButtonDown="TextBox1_MouseLeftButtonDown" 
-                    />
-                <Popup  Placement="Bottom" x:Name="Pop" Width="300" PlacementTarget="{Binding ElementName=TextBox1}"  
-                      StaysOpen="False" HorizontalAlignment="Right" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" PopupAnimation="Slide"
-                        >
-                    <Border  CornerRadius="5" BorderBrush="LightSkyBlue" BorderThickness="1">
-                        <ItemsControl>
-                            <Label Content="我是第1行" />
-                            <Label Content="我是第2行" />
-                            <Label Content="我是第3行" />
-                            <Label Content="我是第4行"/>
+
+
+                <hc:TextBox x:Name="TextBox1" HorizontalAlignment="Left" Height="35" Margin="150,25,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="405"
+                     hc:TitleElement.Title="Driver Name"  hc:TitleElement.TitlePlacement="Left" hc:TitleElement.TitleWidth="100" 
+                     hc:InfoElement.Necessary="True" TextChanged="TextBox1_TextChanged" IsInactiveSelectionHighlightEnabled="True"  
+                      ShowClearButton="True"      >
+
+                </hc:TextBox>
+                <Rectangle x:Name="Rectangle1" Margin="250,60,238,280" />
+                <Popup  Placement="Bottom" x:Name="Pop" Width="315" PlacementTarget="{Binding ElementName=Rectangle1}" ScrollViewer.CanContentScroll="True" PopupAnimation="None"  StaysOpen="False"  AllowsTransparency="True" 
+                         >
+                    <Border  CornerRadius="5" Background="White" BorderBrush="LightSkyBlue" BorderThickness="1" HorizontalAlignment="Right" Width="300" Margin="0,135,0,215">
+                        <ItemsControl >
+                            <ListBox  x:Name="DriverName"  />
+
+                            <ListBox  x:Name="DriverName1"   HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="307"     SelectionChanged="DriverName1_SelectionChanged" FontWeight="Light" />
+
                         </ItemsControl>
+
                     </Border>
 
                 </Popup>
-                <TextBlock HorizontalAlignment="Left" Height="19" Margin="605,196,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="30">
-                    <Hyperlink NavigateUri="https://docs.microsoft.com/en-us/windows/release-information/" ToolTip="GDR" Name="GDR" Click="GDR_Click" Cursor="Hand">GDR</Hyperlink>
+                
+                <TextBlock HorizontalAlignment="Left" Height="19" Margin="595,196,0,0"  TextWrapping="Wrap" VerticalAlignment="Top" Width="55" RenderTransformOrigin="0.273,0.474">
+                    <Hyperlink NavigateUri="https://docs.microsoft.com/en-us/windows/release-information/" ToolTip="GDR版本信息" Name="GDR" Click="GDR_Click" Cursor="Hand">GDR Info</Hyperlink>
                 </TextBlock>
             </Grid>
 
         </ScrollViewer>
+
         <hc:Divider  Margin="72,330,72,80" Visibility="Visible"  BorderThickness="2" RenderTransformOrigin="0.5,0.5">
             <hc:Divider.RenderTransform>
                 <TransformGroup>
@@ -63,12 +70,12 @@
             </hc:Divider.RenderTransform>
         </hc:Divider>
 
-        <Button x:Name="Button1" Style="{StaticResource ButtonInfo}" Content="提交" Margin="622,369,0,0" hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Click="Button_Click" FontSize="14" />
+        <Button x:Name="Button1" Style="{StaticResource ButtonInfo}" Content="提交" Margin="622,369,0,0" hc:IconElement.Geometry="{StaticResource WindowRestoreGeometry}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="85" Click="Button_Click" FontSize="14" Cursor="Hand" ToolTip="提交查询"/>
         <hc:LoadingCircle x:Name="Loading1" HorizontalAlignment="Left" Height="30" Margin="712,369,0,0" VerticalAlignment="Top" Width="35"
                     Visibility="Hidden"
                           />
 
-        <CheckBox x:Name="check1" HorizontalAlignment="Left" Margin="530,375,0,0"    Content="生成图表" VerticalAlignment="Top" ClickMode="Release" IsChecked="True" />
+        <CheckBox x:Name="check1" HorizontalAlignment="Left" Margin="530,375,0,0"    Content="生成图表" VerticalAlignment="Top" ClickMode="Release" IsChecked="True" ToolTip="生成图表" />
 
     </Grid>
 </UserControl>

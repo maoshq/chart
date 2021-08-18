@@ -9,9 +9,15 @@ namespace UITest.Model
     {
         public bool isNet { get; set; }
 
-        public Settings(bool isNet)
+        public List<string> historyDriver { get; set; }
+
+        public bool flag { get; set; }
+
+        public Settings(bool isNet, List<string> historyDriver, bool flag)
         {
             this.isNet = isNet;
+            this.historyDriver = historyDriver ?? throw new ArgumentNullException(nameof(historyDriver));
+            this.flag = flag;
         }
 
         public Settings()
